@@ -18,6 +18,9 @@ class Blockchain:
     def add_genesis_block(self):
         self.current_block = Block('I am the genesis block.')
 
+    def get_current_block(self):
+        return LIGTH_MAGENTA + "\n{0}\n".format(self.current_block) + DEFAULT
+
     def __str__(self):
         current_block = self.current_block
         string = ""
@@ -34,4 +37,4 @@ if __name__ == '__main__':
     bc.add('bravo block')
     bc.add('charly block')
 
-    print(bc)
+    print(bc.get_current_block())

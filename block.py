@@ -2,12 +2,13 @@ import datetime
 import hashlib
 
 SHA = hashlib.sha256()
+gen_hash = lambda timestamp: (lambda x=(lambda: SHA.update(str(timestamp).encode()))(): SHA.hexdigest())()
 
 class Block:
 
     def __init__(self, data):
         self.timestamp = datetime.datetime.now()
-        self.hash = (lambda x=(lambda: SHA.update(str(self.timestamp).encode()))(): SHA.hexdigest())()
+        self.hash = gen_hash(self.timestamp)
         self.previous_block = None
         self.next_block = None
         self.data = data
