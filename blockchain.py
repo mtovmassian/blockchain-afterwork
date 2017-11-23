@@ -21,6 +21,13 @@ class Blockchain:
     def get_current_block(self):
         return LIGTH_MAGENTA + "\n{0}\n".format(self.current_block) + DEFAULT
 
+    def go_through(self):
+        current_block = self.current_block
+        while current_block is not None:
+            input('[ENTER] to see previous block ')
+            print(LIGTH_MAGENTA + "{0}".format(current_block) + DEFAULT)
+            current_block = current_block.previous_block
+
     def __str__(self):
         current_block = self.current_block
         string = ""
