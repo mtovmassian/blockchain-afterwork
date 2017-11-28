@@ -2,7 +2,8 @@ import datetime
 import hashlib
 
 SHA = hashlib.sha256()
-LIGTH_MAGENTA  = '\033[95m'
+GREEN  = '\033[1;32m'
+BLACK = '\033[1;30m'
 DEFAULT = '\033[m'
 
 class Block:
@@ -30,21 +31,19 @@ class Block:
 
     def __str__(self):
         width = 100
-        sep_l, sep_h = '/', '//'
-        block_edge = "{0}".format(sep_l * width)
-        block_index = "{0}    block_index: {1}".format(sep_h, self.block_index).ljust(width-2, ' ') + sep_h
-        hash = "{0}    hash: {1}".format(sep_h, self.hash).ljust(width-2, ' ') + sep_h
-        timestamp = "{0}    timestamp: {1}".format(sep_h, self.timestamp).ljust(width-2, ' ') + sep_h
-        previous_block_hash = "{0}    previous_block_hash: {1}".format(
-            sep_h, None if self.previous_block_hash == None else self.previous_block_hash).ljust(width-2, ' '
-        ) + sep_h
-        next_block_hash = "{0}    next_block_hash: {1}".format(
-            sep_h, None if self.next_block_hash == None else self.next_block_hash).ljust(width-2, ' '
-        ) + sep_h
-        data = "{0}    data: {1}".format(sep_h, self.data).ljust(width-2, ' ') + sep_h
+        long_edge = GREEN + "{0}".format('/' * width) + DEFAULT
+        short_edge = GREEN + '//' + DEFAULT
+        row = lambda attr, val: short_edge + BLACK + "    {0}: {1}".format(attr, val).ljust(width-4, ' ') + short_edge
 
-        return LIGTH_MAGENTA + "{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n{6}\n{7}".format(
-            block_edge, block_index, hash, timestamp, previous_block_hash, next_block_hash, data, block_edge
+        block_index = row(attr='block_index', val=self.block_index)
+        hash = row(attr='hash', val=self.hash)
+        timestamp = row(attr='timestamp', val=self.timestamp)
+        previous_block_hash = row(attr='previous_block_hash', val=None if self.previous_block_hash == None else self.previous_block_hash)
+        next_block_hash = row(attr='next_block_hash', val=None if self.next_block_hash == None else self.next_block_hash)
+        data = row(attr='data', val=self.data)
+
+        return "{0}\n{1}\n{2}\n{3}\n{4}\n{5}\n{6}\n{7}".format(
+            long_edge, block_index, hash, timestamp, previous_block_hash, next_block_hash, data, long_edge
         ) + DEFAULT
 
 if __name__ == '__main__':

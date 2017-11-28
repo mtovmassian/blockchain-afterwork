@@ -1,6 +1,7 @@
 from block import Block
 
-LIGTH_MAGENTA  = '\033[95m'
+GREEN  = '\033[1;32m'
+BLACK = '\033[1;30m'
 DEFAULT = '\033[m'
 
 class Blockchain:
@@ -48,11 +49,11 @@ class Blockchain:
         while current_block.previous_block_hash is not None:
             try:
                 current_block = next(block for block in self.chain if block.hash == current_block.previous_block_hash)
-                string = "{0}\n{1}\n{1}\n{2}".format(string, LIGTH_MAGENTA + '|'.center(100, ' '), current_block)
+                string = "{0}\n{1}\n{1}\n{2}".format(string, GREEN + '|'.center(100, ' ') + DEFAULT, current_block)
             except StopIteration:
                 string = "\n{0}\nCant't retrieve blocks before block {1}.\n".format("/!\ Blockchain is corrupted.", current_block.block_index)
                 break
-        return LIGTH_MAGENTA + string + '\n' + DEFAULT
+        return string + '\n'
 
 
 if __name__ == '__main__':
