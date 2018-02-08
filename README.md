@@ -103,7 +103,7 @@ ONE BLOCK DOWN [PRESS ENTER]
 //    timestamp: 2018-02-08 12:01:09.303865                                                       //
 //    previous_block_hash: None                                                                   //
 //    next_block_hash: 1b77a18d24d8ec0e01bc235d5439f6edcd005c3142717863ed935bc33e827921           //
-//    data: genesis block                                                               //
+//    data: genesis block                                                                         //
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ```
 
