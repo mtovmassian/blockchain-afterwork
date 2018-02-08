@@ -21,7 +21,7 @@ class Blockchain:
         self.current_block = new_block
 
     def add_genesis_block(self):
-        self.genesis_block = Block('I am the genesis block.')
+        self.genesis_block = Block(data="genesis block")
         self.current_block = self.genesis_block
         self.current_block.block_index = 0
         self.chain.append(self.current_block)
