@@ -9,6 +9,7 @@ class Blockchain:
     def __init__(self):
         self.current_block = None
         self.chain = []
+        self.genesis_block = None
         self.add_genesis_block()
 
     def add(self, data):
@@ -20,28 +21,37 @@ class Blockchain:
         self.current_block = new_block
 
     def add_genesis_block(self):
-        self.current_block = Block('I am the genesis block.')
+        self.genesis_block = Block('I am the genesis block.')
+        self.current_block = self.genesis_block
         self.current_block.block_index = 0
         self.chain.append(self.current_block)
 
     def get_current_block(self):
-        return LIGTH_MAGENTA + "\n{0}\n".format(self.current_block) + DEFAULT
+        return GREEN + "\n{0}\n".format(self.current_block) + DEFAULT
 
-    def search(self, block_index):
+    def search(self, block_hash):
         block = None
-        current_block = self.current_block
         try:
-            block = next(block for block in self.chain if block.block_index == block_index)
+            block = next(block for block in self.chain if block.hash == block_hash)
         except StopIteration:
             print("/!\ No block found.")
         return block
 
-    def go_down(self):
+    def navigate_up(self):
+        current_block = self.genesis_block
+        print(GREEN + "{0}".format(current_block) + DEFAULT)
+        while current_block.next_block_hash is not None:
+            input("\nONE BLOCK UP [PRESS ENTER]\n")
+            current_block = next(block for block in self.chain if block.hash == current_block.next_block_hash)
+            print(GREEN + "{0}".format(current_block) + DEFAULT)
+
+    def navigate_down(self):
         current_block = self.current_block
-        while current_block is not None:
-            input('[PREVIOUS] ')
-            print(LIGTH_MAGENTA + "{0}".format(current_block) + DEFAULT)
-            current_block = current_block.previous_block
+        print(GREEN + "{0}".format(current_block) + DEFAULT)
+        while current_block.previous_block_hash is not None:
+            input("\nONE BLOCK DOWN [PRESS ENTER]\n")
+            current_block = next(block for block in self.chain if block.hash == current_block.previous_block_hash)
+            print(GREEN + "{0}".format(current_block) + DEFAULT)
 
     def __str__(self):
         current_block = self.current_block
@@ -61,6 +71,6 @@ if __name__ == '__main__':
     bc.add('alpha block')
     bc.add('bravo block')
     bc.add('charly block')
-    bc.add('delta block')
 
     print(bc)
+    print(bc.genesis_block)
