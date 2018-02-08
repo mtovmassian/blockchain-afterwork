@@ -3,7 +3,7 @@
 Mini-blockchain written with Python 3 and used to explain blockchain concepts.
 
 ## Blockchain initialization
-```python
+```
 >>> from blockchain import Blockchain
 >>> bc = Blockchain()
 >>> bc.add("alpha block")
@@ -41,7 +41,7 @@ Mini-blockchain written with Python 3 and used to explain blockchain concepts.
 ```
 
 ## Demonstrate doubly linked list behaviour
-```python
+```
 >>> bc.navigate_up()
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //    block_index: 0                                                                              //
@@ -108,7 +108,7 @@ ONE BLOCK DOWN [PRESS ENTER]
 ```
 
 ## Demonstrate data immutability
-```python
+```
 >>> block_to_edit = bc.search("1b77a18d24d8ec0e01bc235d5439f6edcd005c3142717863ed935bc33e827921")
 >>> block_to_edit.data = "Data has been edited"
 >>> print(bc)
