@@ -41,17 +41,31 @@ class Blockchain:
         current_block = self.genesis_block
         print(GREEN + "{0}".format(current_block) + DEFAULT)
         while current_block.next_block_hash is not None:
-            input("\nONE BLOCK UP [PRESS ENTER]\n")
-            current_block = next(block for block in self.chain if block.hash == current_block.next_block_hash)
-            print(GREEN + "{0}".format(current_block) + DEFAULT)
+            try:
+                input("\nONE BLOCK UP [PRESS ENTER]\n")
+                current_block = next(block for block in self.chain if block.hash == current_block.next_block_hash)
+                print(GREEN + "{0}".format(current_block) + DEFAULT)
+            except StopIteration:
+                self.throw_corruption_error(current_block, "after")
+                break
 
     def navigate_down(self):
         current_block = self.current_block
         print(GREEN + "{0}".format(current_block) + DEFAULT)
         while current_block.previous_block_hash is not None:
-            input("\nONE BLOCK DOWN [PRESS ENTER]\n")
-            current_block = next(block for block in self.chain if block.hash == current_block.previous_block_hash)
-            print(GREEN + "{0}".format(current_block) + DEFAULT)
+            try:
+                input("\nONE BLOCK DOWN [PRESS ENTER]\n")
+                current_block = next(block for block in self.chain if block.hash == current_block.previous_block_hash)
+                print(GREEN + "{0}".format(current_block) + DEFAULT)
+            except StopIteration:
+                self.throw_corruption_error(current_block, "before")
+                break
+
+    def throw_corruption_error(self, block, position):
+        alert = "/!\ BLOCKCHAIN CORRUPTION HAS BEEN DETECTED /!\\"
+        info = "\nCan't retrieve blocks {0} block {1}\n".format(position, block.block_index)
+        error = alert + info
+        print(error)
 
     def __str__(self):
         current_block = self.current_block
@@ -61,8 +75,7 @@ class Blockchain:
                 current_block = next(block for block in self.chain if block.hash == current_block.previous_block_hash)
                 string = "{0}\n{1}\n{1}\n{2}".format(string, GREEN + '|'.center(100, ' ') + DEFAULT, current_block)
             except StopIteration:
-                string = "\n{0}\nCant't retrieve blocks before block {1}.\n".format("/!\ Blockchain is corrupted.", current_block.block_index)
-                break
+                self.throw_corruption_error(current_block, "before")
         return string + '\n'
 
 
@@ -70,7 +83,5 @@ if __name__ == '__main__':
     bc = Blockchain()
     bc.add('alpha block')
     bc.add('bravo block')
-    bc.add('charly block')
 
     print(bc)
-    print(bc.genesis_block)

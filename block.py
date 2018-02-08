@@ -49,5 +49,3 @@ class Block:
 if __name__ == '__main__':
     b = Block('alpha block')
     print(b)
-    b.data = 'michel'
-    print(b)
